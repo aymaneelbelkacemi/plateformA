@@ -7,12 +7,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.PL.Spring.Entities.Admin;
+import com.PL.Spring.Entities.Student;
 import com.PL.Spring.Entities.User;
 
 
 
 
-public class UserDaoImp implements UserDaoInt,AdminDaoInt{
+public class UserDaoImp implements UserDaoInt,AdminDaoInt,StudentDaoInt{
 
 	@PersistenceContext
 	private EntityManager em;
@@ -103,6 +104,42 @@ public class UserDaoImp implements UserDaoInt,AdminDaoInt{
 	public List<Admin> getAllAdmins() {
 		Query query=this.em.createQuery("SELECT o from Admin o");
 		return query.getResultList();
+	}
+
+	@Override
+	public void addStudent(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editStudent(Student student) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteStudent(Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Student findStudent(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Student findStudentByName(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Student> getAllStudents() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
