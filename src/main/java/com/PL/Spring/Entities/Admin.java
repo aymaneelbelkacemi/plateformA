@@ -26,6 +26,7 @@ public class Admin extends User implements Serializable {
 	private String nom;
 	@Override
 	public String toString() {
+		
 		return "Admin [nom=" + nom + ", prenom=" + prenom + ", email=" + email
 				+ ", photo=" + Arrays.toString(photo) + ", dateNaissance="
 				+ dateNaissance + ", adresse=" + adresse + ", dateCreation="
