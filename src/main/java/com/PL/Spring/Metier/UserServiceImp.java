@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.PL.Spring.DAO.UserDaoImp;
 import com.PL.Spring.Entities.Admin;
 import com.PL.Spring.Entities.Professor;
+import com.PL.Spring.Entities.Student;
 import com.PL.Spring.Entities.User;
 
 @Transactional
@@ -124,6 +125,42 @@ public class UserServiceImp implements UserServiceInt{
 	public List<Professor> getAllProfessors() {
 		return userDaoImp.getAllProfessors();
 		
+	}
+
+	@Override
+	public void addStudent(Student student) {
+		userDaoImp.addStudent(student);
+		
+	}
+
+	@Override
+	public void editStudent(Student student) {
+		userDaoImp.editStudent(student);
+		
+	}
+
+	@Override
+	public void deleteStudent(Long userId) {
+		userDaoImp.deleteStudent(userId);
+		
+	}
+
+	@Override
+	public Student findStudent(Long userId) {
+		
+		return userDaoImp.findStudent(userId);
+	}
+
+	@Override
+	public Student findStudentByName(String username) {
+		
+		return userDaoImp.findStudentByName(username);
+	}
+
+	@Override
+	public List<Student> getAllStudents() {
+		
+		return userDaoImp.getAllStudents();
 	}
 
 }

@@ -48,6 +48,12 @@ public class AdminUsersController {
 		return "admin";
 	}
 	
+	@RequestMapping(value="/Admins")
+	public String GetAdmins(Model model){
+		// recupérer les admins
+		return "admin";
+	}
+	
 	
     
 }

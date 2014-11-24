@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.PL.Spring.Entities.Admin;
 import com.PL.Spring.Entities.Professor;
+import com.PL.Spring.Entities.Student;
 import com.PL.Spring.Entities.User;
 
 public interface UserServiceInt {
@@ -26,6 +27,13 @@ public interface UserServiceInt {
 	void editProfessor(Professor professor);
 	void deleteProfessor(Long userId);
 	Professor  findProfessor(Long userId);
+	
+	void addStudent(Student student);
+	void editStudent(Student student);
+	void deleteStudent(Long userId);
+	Student findStudent(Long userId);
+	Student findStudentByName(String username);
+	List<Student> getAllStudents();
 	Professor findProfessorByName(String username);
 	List<Professor> getAllProfessors();
 
