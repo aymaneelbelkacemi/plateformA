@@ -7,13 +7,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.PL.Spring.Entities.Admin;
+import com.PL.Spring.Entities.Professor;
 import com.PL.Spring.Entities.Student;
 import com.PL.Spring.Entities.User;
 
 
 
 
-public class UserDaoImp implements UserDaoInt,AdminDaoInt,StudentDaoInt{
+public class UserDaoImp implements UserDaoInt,AdminDaoInt,StudentDaoInt,ProfessorDaoInt{
 
 	@PersistenceContext
 	private EntityManager em;
@@ -108,38 +109,74 @@ public class UserDaoImp implements UserDaoInt,AdminDaoInt,StudentDaoInt{
 
 	@Override
 	public void addStudent(Student student) {
-		// TODO Auto-generated method stub
+		em.persist(student);
 		
 	}
 
 	@Override
 	public void editStudent(Student student) {
-		// TODO Auto-generated method stub
+		em.merge(student);
 		
 	}
 
 	@Override
 	public void deleteStudent(Long userId) {
-		// TODO Auto-generated method stub
+		Student s=em.getReference(Student.class, userId);
+		em.remove(s);
 		
 	}
 
 	@Override
 	public Student findStudent(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return em.find(Student.class, userId);
 	}
 
 	@Override
 	public Student findStudentByName(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query=this.em.createQuery("SELECT o from Student o where o.user_name =:username");
+		query.setParameter("username", username);
+		return (Student)query.getSingleResult();
 	}
 
 	@Override
 	public List<Student> getAllStudents() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query=this.em.createQuery("SELECT o from Student o");
+		return query.getResultList();
 	}
 
+	@Override
+	public void addProfessor(Professor professor) {
+		em.persist(professor);
+	}
+
+	@Override
+	public void editProfessor(Professor professor) {
+		em.merge(professor);
+		
+	}
+
+	@Override
+	public void deleteProfessor(Long userId) {
+		Professor u=em.getReference(Professor.class, userId);
+		em.remove(u);	
+	}
+
+	@Override
+	public Professor findProfessor(Long userId) {
+		return em.find(Professor.class, userId);
+		
+	}
+
+	@Override
+	public Professor findProfessorByName(String username) {
+		Query query=this.em.createQuery("SELECT o from Professor o where o.user_name =:username");
+		query.setParameter("username", username);
+		return (Professor)query.getSingleResult();
+	}
+
+	@Override
+	public List<Professor> getAllProfessors() {
+		Query query=this.em.createQuery("SELECT o from Professor o");
+		return query.getResultList();
+	}
 }

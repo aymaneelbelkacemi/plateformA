@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.PL.Spring.DAO.UserDaoImp;
 import com.PL.Spring.Entities.Admin;
+import com.PL.Spring.Entities.Professor;
 import com.PL.Spring.Entities.User;
 
 @Transactional
@@ -58,26 +59,25 @@ public class UserServiceImp implements UserServiceInt{
 
 	@Override
 	public void addAdmin(Admin admin) {
-		// TODO Auto-generated method stub
+		userDaoImp.addAdmin(admin);
 		
 	}
 
 	@Override
 	public void editAdmin(Admin admin) {
-		// TODO Auto-generated method stub
+		userDaoImp.editAdmin(admin);
 		
 	}
 
 	@Override
 	public void deleteAdmin(Long userId) {
-		// TODO Auto-generated method stub
+		userDaoImp.deleteAdmin(userId);
 		
 	}
 
 	@Override
 	public Admin findAdmin(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDaoImp.findAdmin(userId);
 	}
 
 	@Override
@@ -88,6 +88,41 @@ public class UserServiceImp implements UserServiceInt{
 	@Override
 	public List<Admin> getAllAdmins() {
 		return userDaoImp.getAllAdmins();
+		
+	}
+
+	@Override
+	public void addProfessor(Professor professor) {
+		userDaoImp.addProfessor(professor);
+		
+	}
+
+	@Override
+	public void editProfessor(Professor professor) {
+		userDaoImp.editProfessor(professor);
+		
+	}
+
+	@Override
+	public void deleteProfessor(Long userId) {
+		userDaoImp.deleteProfessor(userId);
+		
+	}
+
+	@Override
+	public Professor findProfessor(Long userId) {
+		return userDaoImp.findProfessor(userId);
+		
+	}
+
+	@Override
+	public Professor findProfessorByName(String username) {
+		return userDaoImp.findProfessorByName(username);
+	}
+
+	@Override
+	public List<Professor> getAllProfessors() {
+		return userDaoImp.getAllProfessors();
 		
 	}
 
