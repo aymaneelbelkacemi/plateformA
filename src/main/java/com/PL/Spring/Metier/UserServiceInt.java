@@ -1,6 +1,7 @@
 package com.PL.Spring.Metier;
 
 import java.util.List;
+import java.util.Map;
 
 import com.PL.Spring.Entities.Admin;
 import com.PL.Spring.Entities.Professor;
@@ -22,11 +23,14 @@ public interface UserServiceInt {
 	Admin findAdmin(Long userId);
 	Admin findAdminByName(String username);
 	List<Admin> getAllAdmins();
+	List<Admin> finAdminByProps(Map<String,Object> props);
 	
 	void addProfessor(Professor professor);
 	void editProfessor(Professor professor);
 	void deleteProfessor(Long userId);
 	Professor  findProfessor(Long userId);
+	Professor findProfessorByName(String username);
+	List<Professor> getAllProfessors();
 	
 	void addStudent(Student student);
 	void editStudent(Student student);
@@ -34,7 +38,6 @@ public interface UserServiceInt {
 	Student findStudent(Long userId);
 	Student findStudentByName(String username);
 	List<Student> getAllStudents();
-	Professor findProfessorByName(String username);
-	List<Professor> getAllProfessors();
+	
 
 }

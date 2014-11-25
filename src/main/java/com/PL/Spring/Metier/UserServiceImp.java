@@ -1,6 +1,7 @@
 package com.PL.Spring.Metier;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -161,6 +162,11 @@ public class UserServiceImp implements UserServiceInt{
 	public List<Student> getAllStudents() {
 		
 		return userDaoImp.getAllStudents();
+	}
+
+	@Override
+	public List<Admin> finAdminByProps(Map<String, Object> props) {
+		return userDaoImp.finAdminByProps(props);
 	}
 
 }

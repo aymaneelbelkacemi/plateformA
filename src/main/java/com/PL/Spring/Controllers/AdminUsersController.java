@@ -35,25 +35,138 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.PL.Spring.Entities.Admin;
+import com.PL.Spring.Metier.UserServiceInt;
+
+
 
 @Controller
 @RequestMapping(value="adminUsers")
 public class AdminUsersController {
 
-	
-	
-	@RequestMapping(value="/index")
-	public String index(Model model){
+	@Autowired
+	private UserServiceInt metier;
 		
-		return "admin";
+	private static List<Admin> admins; // Pour avoir la liste a afficher
+	private static Map<String,Object> props; 
+	
+	
+	//Première page on récupère tout les admins
+	@RequestMapping(value="/index")
+	public String Index(Model model){
+		admins=metier.getAllAdmins();
+		model.addAttribute("admin", new Admin());
+		model.addAttribute("admins",admins);
+		
+		return "admins";
 	}
 	
-	@RequestMapping(value="/Admins")
-	public String GetAdmins(Model model){
-		// recupérer les admins
-		return "admin";
+	// Formulaire : on apuie sur le bouton getAll on récupère tous les admins
+	@RequestMapping(value="/saveAdmin",params="getAll")
+	public String afficherTousLesAdmins(Model model){
+		admins=metier.getAllAdmins();
+		props=null;
+		model.addAttribute("admin", new Admin());
+		model.addAttribute("admins",admins);
+		return "admins";
 	}
 	
+	@RequestMapping(value="/suppAdmin")
+	public String supp(long userID,Model model){
+		
+		metier.deleteAdmin(userID);
+		if(props==null)admins=metier.getAllAdmins();
+		else admins=metier.finAdminByProps(props);
+		model.addAttribute("admin", new Admin());	
+		model.addAttribute("admins",admins);
+		return "admins";
+	}
+	@RequestMapping(value="/editAdmin")
+	public String edit(long userID,Model model){
+		Admin u=metier.findAdmin(userID);
+		
+		model.addAttribute("admin", u);	
+		model.addAttribute("admins",admins);
+		return "admins";
+	}
 	
+	@RequestMapping(value="/saveAdmin",params="save")
+	public String saveUser(Admin u,BindingResult bindingResult,Model model,MultipartFile file) throws IOException{
+		
+		
+		if(!file.isEmpty()){
+			//String path=System.getProperty("java.io.tmpdir");
+			BufferedImage bi=ImageIO.read(file.getInputStream());
+			u.setPhoto(file.getBytes());
+			Long idP=null;
+			if(u.getIdUser() == null){
+				u.setDateCreation(new Date());	
+				metier.addAdmin(u);
+			}
+			else{
+				u.setDateModification(new Date());
+			  metier.editAdmin(u);
+			  
+			}
+			//file.transferTo(new File(path+"/"+"PROD_"+idP+"_"+file.getOriginalFilename()));
+		}
+		else{
+			if(u.getIdUser()==null)
+			{
+				u.setDateCreation(new Date());
+				metier.addAdmin(u);
+				
+			}
+			else 
+			{
+				u.setDateModification(new Date());
+				metier.editAdmin(u);
+			}
+		}
+		
+		
+		if(props==null)admins=metier.getAllAdmins();
+		else admins=metier.finAdminByProps(props);
+		
+		model.addAttribute("admin", new Admin());	
+		model.addAttribute("adminss",admins);
+		return "admins";
+	}
     
+	@RequestMapping(value="photoAdmin",produces=MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public  byte[] photoUser(Long userID) throws IOException{
+		//Comment afficher une image
+		Admin e=metier.findAdmin(userID);
+		
+		
+		return IOUtils.toByteArray(new ByteArrayInputStream(e.getPhoto()));
+	}
+	
+	@RequestMapping(value="/saveAdmin",params="find")
+	public String findUsers(Admin u,BindingResult bindingResult,Model model,MultipartFile file) throws IOException{
+		
+		props=new TreeMap<String,Object>();
+		
+		if(u.getIdUser()!=null) props.put("user_id", u.getIdUser());
+		else
+		{
+			if(u.getUser_name()!=null && !u.getUser_name().equals(""))props.put("user_name",u.getUser_name());
+			if(u.getNom()!=null && !u.getNom().equals(""))props.put("nom", u.getNom());
+			if(u.getPrenom()!=null && !u.getPrenom().equals(""))props.put("prenom",u.getPrenom());
+			if(u.getEmail()!=null && !u.getEmail().equals(""))props.put("email",u.getEmail());
+			if(u.getDateNaissance()!=null && !u.getDateNaissance().equals("")) 
+				props.put("dateNaissance", u.getDateNaissance());
+			if(u.getAdresse()!=null && !u.getAdresse().equals("")) props.put("adresse", u.getAdresse());
+			//if(u.getActive()==true)props.put("active", 1);
+			props.put("actived",u.isActived());
+			
+			
+			
+		}
+		admins=metier.finAdminByProps(props);
+		model.addAttribute("admin", new Admin());	
+		model.addAttribute("admins",admins);
+		return "admins";
+	}
 }
